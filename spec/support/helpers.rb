@@ -1,3 +1,5 @@
 RSpec.configure do |config|
-  config.include Features::SessionHelpers, type: :feature
+  config.include Features::CapybaraExt, type: :feature
+  config.include Warden::Test::Helpers
+  config.include Features::SignInHelpers, :type => :feature
 end

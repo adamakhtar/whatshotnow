@@ -2,7 +2,7 @@
 
 FactoryGirl.define do
   factory :product do
-    name "MyString"
-    product_id "MyString"
+    sequence(:name){|x| "Tshirt#{x}"}
+    retailer
   end
 end
