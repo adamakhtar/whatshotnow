@@ -1,0 +1,11 @@
+<%= content_tag_for :div, product do %>
+  <div class="media">
+    <%= link_to product_path(product), class: 'pull-left' do %>
+      <%= image_tag '#' %>
+    <% end %>
+
+    <div class="media-body">
+        <h4><%= link_to product.name, product %></h4>
+    </div>
+  </div>
+<% end %>
