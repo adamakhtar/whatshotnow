@@ -11,10 +11,40 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140627094132) do
+ActiveRecord::Schema.define(version: 20140629023521) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
+
+  create_table "inventories", force: true do |t|
+    t.string   "size"
+    t.string   "status"
+    t.datetime "seen_at"
+    t.integer  "product_id"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "inventories", ["product_id"], name: "index_inventories_on_product_id", using: :btree
+
+  create_table "prices", force: true do |t|
+    t.integer  "product_id"
+    t.integer  "price"
+    t.string   "currency"
+    t.datetime "seen_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "prices", ["product_id"], name: "index_prices_on_product_id", using: :btree
+
+  create_table "products", force: true do |t|
+    t.string   "name"
+    t.string   "product_id"
+    t.string   "image"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "users", force: true do |t|
     t.string   "email",                  default: "", null: false

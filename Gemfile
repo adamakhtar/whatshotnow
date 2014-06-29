@@ -14,6 +14,8 @@ gem 'devise'
 gem 'figaro', '>= 1.0.0.rc1'
 gem 'pg'
 gem 'simple_form'
+gem 'webmock'
+gem 'httparty'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_20]
@@ -32,9 +34,12 @@ group :development, :test do
   gem 'pry-rails'
   gem 'pry-rescue'
   gem 'rspec-rails'
-end
-group :test do
+  gem 'poltergeist'
   gem 'capybara'
+end
+
+group :test do
+  gem 'vcr'
   gem 'database_cleaner'
   gem 'faker'
   gem 'launchy'
