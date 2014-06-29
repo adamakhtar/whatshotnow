@@ -19,6 +19,7 @@ gem 'httparty'
 gem 'money-rails'
 gem 'monetize'
 gem 'highline'
+gem 'ahoy_matey'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_20]

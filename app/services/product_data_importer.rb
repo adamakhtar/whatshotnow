@@ -13,8 +13,7 @@ class ProductDataImporter
   end
 
   def import!(seen_at=nil)
-
-    seen_at ||= Time.now.utc
+    seen_at ||= Time.now
 
     json.each_with_index do |prod, index|
       
@@ -34,7 +33,9 @@ class ProductDataImporter
           product.prices.create(price: prc, seen_at: seen_at)
 
           sizes.each do |k, v|
-            product.inventories.create(size: k, status: v, seen_at: seen_at)
+            status = massage_status(v) #TODO - remove - see method definition
+            tracker = StockLevelTracker.new(product, k)
+            tracker.create_and_track_stock_level(status: status, seen_at: seen_at)
           end
 
         rescue ActiveRecord::RecordInvalid => e
@@ -42,6 +43,12 @@ class ProductDataImporter
         end          
       end #transaction
     end  #json.each
+  end
+
+  # TODO remove this after scrapy is updated to use new status names
+  #
+  def massage_status(name)
+    {'available' => 'in_stock', 'zero' => 'zero_stock', 'low' => 'low_stock'}[name] || name
   end
 
 end
