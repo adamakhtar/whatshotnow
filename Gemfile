@@ -16,6 +16,9 @@ gem 'pg'
 gem 'simple_form'
 gem 'webmock'
 gem 'httparty'
+gem 'money-rails'
+gem 'monetize'
+gem 'highline'
 group :development do
   gem 'better_errors'
   gem 'binding_of_caller', :platforms=>[:mri_20]

@@ -1,5 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Product, :type => :model do
-  pending "add some examples to (or delete) #{__FILE__}"
-end
+  it "invalid without name" do
+    p = Product.new
+    p.valid?
+    p.errors.keys.should include :name
+  end
+end 
