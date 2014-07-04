@@ -19,6 +19,7 @@ gem 'httparty'
 gem 'money-rails'
 gem 'monetize'
 gem 'highline'
+gem 'kaminari'
 
 group :development do
   gem 'better_errors'
