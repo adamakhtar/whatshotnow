@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    @products = Product.most_recent
+    @products = params[:tab] == 'hot' ? Product.most_hot : Product.most_recent    
   end
 
   def show

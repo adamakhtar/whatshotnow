@@ -3,28 +3,15 @@ class SellOut < ActiveRecord::Base
   belongs_to :size
   belongs_to :stock_level
 
-  scope :rapid,   -> { where speed: 'rapid' }
-  scope :fast,    -> { where speed: 'fast' }
-  scope :quick,    -> { where speed: 'quick' }
-  scope :normal,  -> { where speed: 'normal' }
-  scope :slow,    -> { where speed: 'slow' }
+  scope :rapid,   -> { where days_taken: (0..3) }
+  scope :fast,    -> { where days_taken: (4..7) }
+  scope :quick,   -> { where days_taken: (8..14) }
+  scope :normal,  -> { where days_taken: (15..31) }
+  scope :slow,    -> { where 'days_taken >= 32' }
 
-  validates :speed, presence: true
 
-  def self.create_by_inferring_speed(days_taken, args)
-    args = args.reverse_merge(speed: infer_speed(days_taken))
-    create(args)
-  end
+  validates :days_taken, presence: true
+  validates :occurred_at, presence: true
 
-  def self.infer_speed(days_taken)
-    speed = case days_taken
-    when (0.days..3.days)  then :rapid
-    when (4.days..7.days)  then :fast
-    when (8.days..14.days) then :quick 
-    when (15.days..21.days) then :normal
-    else 
-      :slow
-    end
-  end
 end
 

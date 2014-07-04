@@ -43,4 +43,13 @@ namespace :db do
 
     puts "Import data complete.\n\n"
   end
+
+  desc 'calculate hotness score for all products'
+  task :calculate_hotness do
+    Product.find_each do |p|
+      p.hotness_score = HotnessCalculator.new(p).calculate
+      p.save
+    end 
+  end
+
 end

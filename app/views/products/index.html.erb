@@ -1,7 +1,13 @@
 <div class="container">
   <div class="page-header">
-    <h1>All Products</h1>
+    <h1><%= "#{params[:tab]} Products"%></h1>
   </div>
+
+  
+  <ul class="nav nav-tabs nav-justified" role="tablist">
+    <%= product_tab 'Hot', active: params[:tab] == 'Hot' %>
+    <%= product_tab 'All', active: params[:tab] == 'All' %>
+  </ul>
 
   <div class="products-list">
     <%= render @products %>
