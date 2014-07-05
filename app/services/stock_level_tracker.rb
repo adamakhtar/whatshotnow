@@ -18,7 +18,7 @@ class StockLevelTracker
 
         #create a sellout
         days_taken = size.days_since_last_restock
-        SellOut.create(days_taken: days_taken, size: size, stock_level: stock_level)
+        SellOut.create(days_taken: days_taken, size: size, stock_level: stock_level, occurred_at: stock_level.seen_at)
 
       elsif size.just_restocked?
         #fire restocked event

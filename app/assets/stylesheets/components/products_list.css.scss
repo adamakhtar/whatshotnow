@@ -1,0 +1,11 @@
+.products-list {
+  @extend .list-group;
+}
+
+.products-list .product {
+  @extend .list-group-item;
+}
+.products-list .product img {
+  @extend .img-thumbnail;
+  max-width: 64px;
+}

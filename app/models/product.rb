@@ -11,5 +11,12 @@ class Product < ActiveRecord::Base
   validates :name, presence: true, uniqueness: true
   validates :hotness_score, presence: true
 
+  after_initialize :set_defaults
+
+  def set_defaults
+    return if persisted?
+    self.hotness_score ||= 0.0
+  end
+
   
 end
