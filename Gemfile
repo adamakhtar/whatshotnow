@@ -20,6 +20,8 @@ gem 'money-rails'
 gem 'monetize'
 gem 'highline'
 gem 'kaminari'
+gem 'chartkick'
+gem 'groupdate'
 
 group :development do
   gem 'better_errors'
