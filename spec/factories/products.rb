@@ -5,6 +5,7 @@ FactoryGirl.define do
     sequence(:name){|x| "Tshirt#{x}"}
     retailer
     hotness_score 5.0
+    sequence(:url){|x|  "http://topshop.com/#{x}/" }
 
     factory :hot_product do
       hotness_score 1000.0

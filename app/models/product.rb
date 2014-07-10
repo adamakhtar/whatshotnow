@@ -10,12 +10,17 @@ class Product < ActiveRecord::Base
 
   validates :name, presence: true, uniqueness: true
   validates :hotness_score, presence: true
+  validates :url, presence: true,  uniqueness: true
 
   after_initialize :set_defaults
 
   def set_defaults
     return if persisted?
     self.hotness_score ||= 0.0
+  end
+
+  def url=(str)
+    self[:url] = str.gsub(/\?.*/, '')
   end
 
   

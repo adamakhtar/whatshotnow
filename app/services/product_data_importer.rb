@@ -7,25 +7,29 @@ class ProductDataImporter
   end
 
   def json
-    @json ||= File.open(json_filename, 'r') do |f|
-       JSON.parse(@filename).flatten
+    @json ||= File.open(@filename, 'r') do |f|
+       JSON.parse(f.read).flatten
     end
   end
 
-  def import!(seen_at=nil)
-    seen_at ||= Time.now
+  def import!
+    seen = [] #keep track of what products seen in this scrape report.
 
     json.each_with_index do |prod, index|
       
-      name  = prod["name"][0]
-      price = prod["price"][0]
+
+      name  = [prod["name"]].flatten.first #sometimes scraped name is stored in json as array or as a string. This ensures we get a string.
+      price = [prod["price"]].flatten.first
       url   = prod["url"]
       sizes = prod["sizes"]
+      seen_at = [prod["seen_at"]].flatten.first
+
+      next if seen.include? name #skip any products that may have been included twice because they were scraped from several category lists
 
       Product.transaction do
         begin 
-          product = Product.find_or_create_by(url: url) do |p|
-            p.name = name
+          product = Product.find_or_create_by(name: name) do |p|
+            p.url = url
           end
         
           Monetize.assume_from_symbol = true
@@ -42,6 +46,8 @@ class ProductDataImporter
           logger.error = "Could not import product data with:\n#{prod.inspect}\n#{e.message}\n\n"
         end          
       end #transaction
+
+      seen << name 
     end  #json.each
   end
 
