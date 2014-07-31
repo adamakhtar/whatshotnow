@@ -15,6 +15,10 @@ RSpec.describe HotnessCalculator, :type => :model do
       score_a = HotnessCalculator.new(product_a).calculate
       score_b = HotnessCalculator.new(product_b).calculate
 
+
+      expect(score_a.finite?).to be true
+      expect(score_b.finite?).to be true
+
       expect(score_a).to be > score_b
     end
 
@@ -25,6 +29,9 @@ RSpec.describe HotnessCalculator, :type => :model do
       score_a = HotnessCalculator.new(product_a).calculate
       score_b = HotnessCalculator.new(product_b).calculate
 
+      expect(score_a.finite?).to be true
+      expect(score_b.finite?).to be true
+      
       expect(score_a).to be > score_b
     end
   end
