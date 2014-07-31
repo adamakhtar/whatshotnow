@@ -12,4 +12,6 @@ RSpec.describe Product, :type => :model do
     p = Product.new(:url => 'www.blog.com?foo=bar')
     p.url.should == 'www.blog.com'
   end
+
+  
 end 
