@@ -2,7 +2,7 @@
 
 <div class="container">
   <div class="page-header">
-    <h1><%= @product.name %></h1>
+    <h1><span class="label label-success hotness_score"><%= @product.display_hotness_score %></span> <%= link_to @product.name, @product.url, 'target' => '_blank' %></h1>
   </div>
 
 
@@ -57,17 +57,38 @@
           <div class="row">
             <div class="col-sm-4">
               <h5>First seen</h5>
-              <h3><%= pluralize(time_difference_in_days(@product.stock_levels.most_old.first.seen_at), 'day') %> ago</h3>
+
+              <h3>
+                <% if @product.first_seen_at.present? %>
+                  <%= pluralize(time_difference_in_days(@product.first_seen_at), 'day') %> ago
+                <% else %>
+                   NA
+                <% end %>
+              </h3>
             </div>
 
             <div class="col-sm-4">
               <h5>Last seen</h5>
-              <h3><%= pluralize(time_difference_in_days(@product.stock_levels.most_recent.first.seen_at), 'day') %>  ago</h3>
+
+              <h3>
+                <% if @product.last_seen_at.present? %>
+                  <%= pluralize(time_difference_in_days(@product.last_seen_at), 'day') %>  ago
+
+                <% else %>
+                   NA
+                <% end %>
+              </h3>
             </div>
 
             <div class="col-sm-4">
               <h5>Current Price</h5>
-              <h3>$35.00</h3>
+              <h3>
+                <% if @product.most_recent_price.present? %>
+                  <%= humanized_money_with_symbol @product.most_recent_price.price %>
+                <% else %>
+                  NA 
+                <% end %>
+              </h3>
             </div>
           </div>
         </div>
@@ -104,7 +125,7 @@
             <h3 class="panel-title">Sellout speed</h3>
           </div>
           <div class="panel-body">
-            <%= column_chart [ ['0-3', @product.sell_outs.rapid], ['4-7', @product.sell_outs.fast], ['8-14', @product.sell_outs.quick], ['15-31', @product.sell_outs.normal], ['32+', @product.sell_outs.slow] ] %>
+            <%= column_chart [ ['0-3', @product.sell_outs.rapid.count], ['4-7', @product.sell_outs.fast.count], ['8-14', @product.sell_outs.quick.count], ['15-31', @product.sell_outs.normal.count], ['32+', @product.sell_outs.slow.count] ] %>
           </div>
       </div>
 
@@ -125,11 +146,6 @@
       </div>
 
     </div>
-
-    <div class="column">
-
-    </div>
-
   </section>
   
 
