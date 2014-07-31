@@ -29,6 +29,6 @@ class Size < ActiveRecord::Base
   def days_since_last_restock
     restocked = events.restocked.most_recent.first
     return unless restocked
-    (Time.now.to_date - restocked.occurred_at.to_date).to_i
+    ((Time.now - restocked.occurred_at) / 1.day).floor
   end
 end

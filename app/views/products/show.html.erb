@@ -1,5 +1,153 @@
+<%= javascript_include_tag "//www.google.com/jsapi", "chartkick" %>
+
 <div class="container">
   <div class="page-header">
-    <h1><%= @product.name %></h1>
+    <h1><span class="label label-success hotness_score"><%= @product.display_hotness_score %></span> <%= link_to @product.name, @product.url, 'target' => '_blank' %></h1>
   </div>
+
+
+
+  <section>
+    <div class="column">
+
+      <div class="panel panel-default">
+          
+        <div class="panel-heading">
+          <h3 class="panel-title">Sales info</h3>
+        </div>
+
+
+        <div class="panel-body">
+
+          <div class="row">
+
+            <div class="col-sm-4">
+              <h5>Number of sellouts</h5>
+              <h3><%= @product.sell_outs.count %></h3>
+              
+            </div>
+
+            <div class="col-sm-4">
+              <h5>Fastest sell out</h5>
+              <h3><%= pluralize(@product.sell_outs.minimum(:days_taken).to_i, 'day') %></h3>
+            </div>
+
+            <div class="col-sm-4">
+              <h5>Avg. sellout time</h5>
+              <h3><%= pluralize(@product.sell_outs.average(:days_taken).to_i, 'day') %></h3>
+            </div>
+          </div>
+        </div>
+      </div>
+
+
+    </div>
+
+
+    <div class="column">
+
+      <div class="panel panel-default">
+          
+        <div class="panel-heading">
+          <h3 class="panel-title">Product info</h3>
+        </div>
+
+        <div class="panel-body">
+
+          <div class="row">
+            <div class="col-sm-4">
+              <h5>First seen</h5>
+
+              <h3>
+                <% if @product.first_seen_at.present? %>
+                  <%= pluralize(time_difference_in_days(@product.first_seen_at), 'day') %> ago
+                <% else %>
+                   NA
+                <% end %>
+              </h3>
+            </div>
+
+            <div class="col-sm-4">
+              <h5>Last seen</h5>
+
+              <h3>
+                <% if @product.last_seen_at.present? %>
+                  <%= pluralize(time_difference_in_days(@product.last_seen_at), 'day') %>  ago
+
+                <% else %>
+                   NA
+                <% end %>
+              </h3>
+            </div>
+
+            <div class="col-sm-4">
+              <h5>Current Price</h5>
+              <h3>
+                <% if @product.most_recent_price.present? %>
+                  <%= humanized_money_with_symbol @product.most_recent_price.price %>
+                <% else %>
+                  NA 
+                <% end %>
+              </h3>
+            </div>
+          </div>
+        </div>
+      </div>
+      
+    </div>
+
+  </section>
+
+
+
+  <section>
+    <div class="column">
+      
+
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Sellouts through time</h3>
+          </div>
+          <div class="panel-body">
+            <%= area_chart @product.sell_outs.group_by_day(:occurred_at).count %>
+          </div>
+      </div>
+    
+
+    </div>
+    
+
+
+    <div class="column">
+
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Sellout speed</h3>
+          </div>
+          <div class="panel-body">
+            <%= column_chart [ ['0-3', @product.sell_outs.rapid.count], ['4-7', @product.sell_outs.fast.count], ['8-14', @product.sell_outs.quick.count], ['15-31', @product.sell_outs.normal.count], ['32+', @product.sell_outs.slow.count] ] %>
+          </div>
+      </div>
+
+    </div>
+
+  </section>
+
+  <section>
+    <div class="column">
+
+      <div class="panel panel-default">
+          <div class="panel-heading">
+            <h3 class="panel-title">Price levels</h3>
+          </div>
+          <div class="panel-body">
+            <%= area_chart @product.prices.map{|x| [x.seen_at,humanized_money(x.price)] }  %>
+          </div>
+      </div>
+
+    </div>
+  </section>
+  
+
+  
 </div>

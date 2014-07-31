@@ -8,6 +8,7 @@ class SellOut < ActiveRecord::Base
   scope :quick,   -> { where days_taken: (8..14) }
   scope :normal,  -> { where days_taken: (15..31) }
   scope :slow,    -> { where 'days_taken >= 32' }
+  scope :fastest,  -> { order 'days_taken DESC' }
 
 
   validates :days_taken, presence: true

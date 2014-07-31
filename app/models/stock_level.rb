@@ -8,6 +8,7 @@ class StockLevel < ActiveRecord::Base
   STATUS_NAMES = %w{in_stock low_stock zero_stock}
   
   scope :most_recent,   -> { order('seen_at DESC') }
+  scope :most_old,      -> { order('seen_at ASC')}
   scope :in_stock,      -> { where status: 'in_stock' }
   scope :low_stock,     -> { where status: 'low_stock' }
   scope :zero_stock,    -> { where status: 'zero_stock' }

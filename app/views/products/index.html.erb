@@ -4,13 +4,21 @@
   </div>
 
   
-  <ul class="nav nav-tabs nav-justified" role="tablist">
+  <ul class="nav nav-pills nav-justified" role="tablist">
     <%= product_tab 'Hot', active: params[:tab] == 'Hot' %>
     <%= product_tab 'All', active: params[:tab] == 'All' %>
   </ul>
-
-  <div class="products-list">
-    <%= render @products %>
-  </div>
+  <table class="products-list table table table-hover">
+    <thead>
+      <tr>
+        <th></th>
+        <th></th>
+        <th></th>
+      </tr>
+    </thead>
+    <tbody>
+      <%= render @products %>
+    </tbody>
+  </table>
   <%= paginate @products %>
 </div>
