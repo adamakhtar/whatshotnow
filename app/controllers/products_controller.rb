@@ -2,7 +2,7 @@ class ProductsController < ApplicationController
   before_filter :authenticate_user!
 
   def index
-    params[:tab] ||= 'All'
+    params[:tab] ||= 'Hot'
     @products = (params[:tab] == 'Hot' ? Product.most_hot : Product.most_recent).page(params[:page])
   end
 
