@@ -1,0 +1,5 @@
+
+.products-list .product img {
+  @extend .img-thumbnail;
+  max-height: 64px;
+}
